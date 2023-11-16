@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import DataFrameMasterPanel from "./DataFrameMasterPanel";
 
-const allowedExtensions = ["csv"];
+const allowedExtensions = ["csv", "json"];
 
 export function activate(context: vscode.ExtensionContext) {
   const { textDocuments } = vscode.workspace;
@@ -22,6 +22,4 @@ export function activate(context: vscode.ExtensionContext) {
   );
   context.subscriptions.push(...disposables);
 }
-
-// This method is called when your extension is deactivated
 export function deactivate() {}

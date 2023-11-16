@@ -64,10 +64,13 @@ export default class DataFrameMaster {
       async (msg: any) => {
         switch (msg.command) {
           case "startup":
-            const data = vscode.workspace.textDocuments[0]?.getText();
+            const doc = vscode.workspace.textDocuments[0];
+            const data = doc?.getText();
             this._panel!.webview.postMessage({
               command: "data",
               data,
+              fileName: path.basename(doc?.fileName),
+              type: doc?.languageId,
             });
             break;
           case "testing":
