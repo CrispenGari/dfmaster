@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "outDir": "out",
+    "lib": ["es2021", "dom"],
+    "jsx": "react",
+    "sourceMap": true,
+    "rootDir": "src",
+    "strict": false,
+    "types": ["node"],
+    "esModuleInterop": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules/", ".vscode-test/", "src/webviews/"]
+}
