@@ -1,19 +1,47 @@
 import * as vscode from "vscode";
 import DataFrameMasterPanel from "./DataFrameMasterPanel";
 
-const allowedExtensions = ["csv", "json"];
+const allowedExtensions = ["csv", "json", "tsv"];
 
 export function activate(context: vscode.ExtensionContext) {
-  const { textDocuments } = vscode.workspace;
-  const ext = !!textDocuments.length ? textDocuments[0].languageId : undefined;
+  const doc = vscode.window.activeTextEditor?.document;
   const disposables: Array<vscode.Disposable> = [];
   const item = vscode.window.createStatusBarItem(
     vscode.StatusBarAlignment.Left
   );
-  item.text = "$(preview) DataFrame Preview";
-  item.command = "dfmaster.preview";
-  if (allowedExtensions.indexOf(ext?.toLocaleLowerCase()) !== -1) {
-    item.show();
+  vscode.workspace.onDidOpenTextDocument((e) => {
+    const doc = vscode.window.activeTextEditor?.document;
+    console.log({ doc });
+    const ext = e.languageId;
+    item.text = "$(preview) DataFrame Preview";
+    item.command = "dfmaster.preview";
+    if (allowedExtensions.indexOf(ext?.toLowerCase()) !== -1) {
+      item.show();
+    } else {
+      item.hide();
+    }
+  });
+
+  vscode.window.onDidChangeActiveTextEditor(({ document }) => {
+    const ext = document.languageId;
+    item.text = "$(preview) DataFrame Preview";
+    item.command = "dfmaster.preview";
+    if (allowedExtensions.indexOf(ext?.toLowerCase()) !== -1) {
+      item.show();
+    } else {
+      item.hide();
+    }
+  });
+  vscode.workspace.onDidCloseTextDocument((e) => {
+    item.hide();
+  });
+
+  if (context.extension.isActive) {
+    if (allowedExtensions.indexOf(doc?.languageId?.toLowerCase()) !== -1) {
+      item.show();
+    } else {
+      item.hide();
+    }
   }
   disposables.push(
     vscode.commands.registerCommand("dfmaster.preview", () => {

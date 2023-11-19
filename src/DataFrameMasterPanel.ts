@@ -53,17 +53,27 @@ export default class DataFrameMaster {
       "table.svg"
     );
     this._panel.title = path.basename(
-      vscode.workspace.textDocuments[0].fileName
+      vscode.workspace.textDocuments[0]?.fileName
     );
     // Listen for when the panel is disposed
     // This happens when the user closes the panel or when the panel is closed programatically
     this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
-
+    vscode.workspace.onDidChangeTextDocument(({ document }) => {
+      const data = document?.getText();
+      this._panel!.webview.postMessage({
+        command: "edit",
+        data,
+        fileName: path.basename(document?.fileName),
+        type: document?.languageId,
+      });
+    });
     //Listen to messages
     this._panel.webview.onDidReceiveMessage(
       async (msg: any) => {
         switch (msg.command) {
           case "startup":
+            const _currDoc = vscode.window.activeTextEditor;
+            console.log({ _currDoc });
             const doc = vscode.workspace.textDocuments[0];
             const data = doc?.getText();
             this._panel!.webview.postMessage({
@@ -73,8 +83,9 @@ export default class DataFrameMaster {
               type: doc?.languageId,
             });
             break;
-          case "testing":
-            this._panel!.webview.postMessage({ command: "refactor" });
+          case "opened":
+            break;
+          default:
             break;
         }
       },
