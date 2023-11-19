@@ -3,6 +3,7 @@
   "displayName": "dfmaster",
   "description": "This is a vscode extension that reads files into dataframes/tables.",
   "version": "0.0.1",
+  "icon": "media/logo.png",
   "engines": {
     "vscode": "^1.84.0"
   },

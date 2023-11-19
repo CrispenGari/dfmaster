@@ -10,8 +10,6 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.StatusBarAlignment.Left
   );
   vscode.workspace.onDidOpenTextDocument((e) => {
-    const doc = vscode.window.activeTextEditor?.document;
-    console.log({ doc });
     const ext = e.languageId;
     item.text = "$(preview) DataFrame Preview";
     item.command = "dfmaster.preview";

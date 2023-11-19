@@ -2,6 +2,8 @@
 
 This is the Visual Studio Code extension that converts data for files with extensions `tsv`, `json` and `csv` into DataFrame tables.
 
+<p align="center"><img src="media/logo.png" width="200" alt="logo"></p>
+
 ### Usage
 
 Once you installed this extension it will be automatically get activated in your visual studio environment. This extension will watch over:
